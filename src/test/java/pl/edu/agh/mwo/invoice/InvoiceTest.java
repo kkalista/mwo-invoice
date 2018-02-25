@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.edu.agh.mwo.invoice.Invoice;
 import pl.edu.agh.mwo.invoice.product.DairyProduct;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.Product;
@@ -122,11 +121,35 @@ public class InvoiceTest {
 	public void testTheSameInvoiceHasTheSameNumber() {
 		Assert.assertEquals(invoice.getNumber(), invoice.getNumber());
 	}
-	
+	/*
 	@Test
 	public void testTheSecondInvoiceHasGreaterNumber() {
 		int numberFirst = invoice.getNumber();
 		int numberSecond = new Invoice().getNumber();
 		Assert.assertEquals(numberFirst, Matchers.lessThan(numberSecond));
+	}*/
+	
+	@Test
+	public void testNumberAvailableOnPrint() {
+		String printed =  invoice.preparePrint();
+		String number = String.valueOf(invoice.getNumber());
+		Assert.assertThat(printed, Matchers.containsString(number));
 	}
+	
+	@Test
+	public void testPrintContainsProductName() {
+		invoice.addProduct(new OtherProduct("Oscypek", new BigDecimal("2.50")));
+		String printed =  invoice.preparePrint();
+		Assert.assertThat(printed, Matchers.containsString("Oscypek"));
+	}
+	
+	@Test
+	public void testPrintContainsProductQuantity() {
+		invoice.addProduct(new OtherProduct("Oscypek", new BigDecimal("2.50")), 3);
+
+		String printed =  invoice.preparePrint();
+		Assert.assertThat(printed, Matchers.containsString("\nOscypek 3"));
+	}
+	
+	
 }
