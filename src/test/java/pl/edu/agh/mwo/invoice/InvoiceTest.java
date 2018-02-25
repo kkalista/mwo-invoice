@@ -149,6 +149,7 @@ public class InvoiceTest {
 
 		String printed =  invoice.preparePrint();
 		Assert.assertThat(printed, Matchers.containsString("\nOscypek 3"));
+		
 	}
 	
 	

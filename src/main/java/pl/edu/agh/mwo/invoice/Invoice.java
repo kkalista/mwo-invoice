@@ -43,6 +43,7 @@ public class Invoice {
 		for (Product product : products.keySet()) {
 			BigDecimal quantity = new BigDecimal(products.get(product));
 			totalGross = totalGross.add(product.getPriceWithTax().multiply(quantity));
+			
 		}
 		return totalGross;
 	}
